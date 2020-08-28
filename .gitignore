@@ -4,4 +4,3 @@ vendor/**
 !vendor/vendor.json
 storage
 pid
-build/*
