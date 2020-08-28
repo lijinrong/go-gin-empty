@@ -4,7 +4,7 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
-BINARY_NAME=morningo
+BINARY_NAME=go-gin
 BINARY_UNIX=$(BINARY_NAME)_unix
 
 all: run
@@ -20,8 +20,14 @@ clean:
 	rm -f ./build/$(BINARY_NAME)
 	rm -f ./build/$(BINARY_UNIX)
 
+runDev:
+	$(GOBUILD) -o ./build/$(BINARY_NAME) -tags=jsoniter -v ./
+	export mode=dev
+	./build/$(BINARY_NAME)
+
 run:
 	$(GOBUILD) -o ./build/$(BINARY_NAME) -tags=jsoniter -v ./
+	export mode=prod
 	./build/$(BINARY_NAME)
 
 restart:

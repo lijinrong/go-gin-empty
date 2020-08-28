@@ -21,12 +21,12 @@ func RegisterApiRouter(router *gin.Engine) {
 		api.GET("/cookie/get", controllers.CookieGetExample)
 	}
 
-	jwtApi := router.Group("/api")
-	jwtApi.GET("/jwt/set/:userid", controllers.JwtSetExample)
+	jwtApi := router.Group("/jwt")
+	jwtApi.GET("/set/:userid", controllers.JwtSetExample)
 
 	// jwt auth middleware
 	jwtApi.Use(auth.Middleware(auth.JwtAuthDriverKey))
 	{
-		jwtApi.GET("/jwt/get", controllers.JwtGetExample)
+		jwtApi.GET("/get", controllers.JwtGetExample)
 	}
 }

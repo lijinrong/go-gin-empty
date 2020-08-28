@@ -21,10 +21,13 @@ func Run(router *gin.Engine) {
 
 	go func() {
 		// service dao
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		err := srv.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
+
+	log.Printf("start server ok. ready to listen port %s", config.GetEnv().ServerPort)
 
 	// Wait for interrupt signal to gracefully shutdown the server with
 	// a timeout of 10 seconds.

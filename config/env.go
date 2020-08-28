@@ -1,9 +1,14 @@
 package config
 
-import "github.com/go-sql-driver/mysql"
+import (
+	"flag"
+	"fmt"
+	"github.com/go-sql-driver/mysql"
+	"os"
+	"strconv"
+)
 
 // 本文件建议在代码协同工具(git/svn等)中忽略
-
 var env = Env{
 	Debug: true,
 
@@ -30,14 +35,31 @@ var env = Env{
 	RedisCacheDb:   2,
 
 	AccessLog:     true,
-	AccessLogPath: "storage/logs/access.log",
+	AccessLogPath: "../storage/logs/access.log",
 
 	ErrorLog:     true,
-	ErrorLogPath: "storage/logs/error.log",
+	ErrorLogPath: "../storage/logs/error.log",
 
 	InfoLog:     true,
-	InfoLogPath: "storage/logs/info.log",
+	InfoLogPath: "../storage/logs/info.log",
 
 	//APP_SECRET: "YbskZqLNT6TEVLUA9HWdnHmZErypNJpL",
 	AppSecret: "YbskZqLNT6TEVLUA9HWdnHmZErypNJpL",
+}
+
+func init() {
+	mode := os.Getenv("mode")
+	if mode == "dev" {
+		env.Debug = true
+	} else if mode == "prod" {
+		env.Debug = false
+	}
+
+	var port int
+	flag.IntVar(&port, "port", 0, "http listen port")
+	flag.Parse()
+	fmt.Printf("port %d", port)
+	if port != 0 {
+		env.ServerPort = strconv.Itoa(port)
+	}
 }
