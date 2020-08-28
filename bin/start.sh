@@ -7,8 +7,6 @@ cd $dir
 APP=go-gin
 BINARY_NAME=go-gin
 
-go build -o ../build/${BINARY_NAME} -tags=jsoniter -v ../
-
 mkdir -p ../storage/logs
 mkdir -p ../var
 
